@@ -6,6 +6,7 @@ services:
       - "4000:4000"
     depends_on:
       - patient-service-db
+      - kafka
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://patient-service-db:5432/db
       - SPRING_DATASOURCE_USERNAME=admin_user
@@ -14,9 +15,10 @@ services:
       - SPRING_SQL_INIT_MODE=always
       - BILLING_SERVICE_ADDRESS=billing-service
       - BILLING_SERVICE_GRPC_PORT=9001
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
       - internal
+    restart: always
 
   patient-service-db:
     container_name: patient-service-db
@@ -36,15 +38,17 @@ services:
   billing-service:
     container_name: billing-service
     image: billing-service
+    depends_on:
+      - patient-service
     ports:
       - "4001:4001"
       - "9001:9001"
-    depends_on:
-      - patient-service-db
     environment:
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
       - internal
+    restart: always
+
 
   kafka:
     image: bitnami/kafka:latest

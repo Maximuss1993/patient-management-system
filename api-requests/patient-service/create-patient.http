@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "name": "John Doe grpc test",
   "address": "Test Address",
-  "email": "john.doseesadssas13@xample.com",
+  "email": "john.1seeshadssas13@xample.com",
   "dateOfBirth": "1993-05-05",
   "registeredDate": "2025-05-05"
 }
