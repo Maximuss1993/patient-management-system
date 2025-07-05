@@ -19,7 +19,9 @@ public class GlobalExceptionHandler {
 
     Map<String, String> errors = new HashMap<>();
     ex.getBindingResult().getFieldErrors().forEach(error ->
-        errors.put(error.getField(), error.getDefaultMessage()));
+        errors.put(error.getField(), error.getDefaultMessage())
+    );
+
     return ResponseEntity.badRequest().body(errors);
   }
 
@@ -30,6 +32,7 @@ public class GlobalExceptionHandler {
     log.debug("Email exception: {}", ex.getMessage()); //CHECK
     Map<String, String> errors = new HashMap<>();
     errors.put("message", "Email already exists");
+
     return ResponseEntity.badRequest().body(errors);
   }
 
@@ -40,6 +43,7 @@ public class GlobalExceptionHandler {
     log.debug("Patient not found: {}", ex.getMessage()); //CHECK
     Map<String, String> errors = new HashMap<>();
     errors.put("message", "Patient not found");
+
     return ResponseEntity.badRequest().body(errors);
   }
 
