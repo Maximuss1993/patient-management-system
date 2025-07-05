@@ -8,6 +8,7 @@ import com.pm.patientservice.grpc.BillingServiceGrpcClient;
 import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
 import com.pm.patientservice.repository.PatientRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class PatientService {
 
   private final PatientRepository patientRepository;
@@ -46,16 +48,22 @@ public class PatientService {
     Patient newPatient = patientMapper.toPatient(requestDTO);
     Patient savedPatient = patientRepository.save(newPatient);
 
-    billingServiceGrpcClient.createBillingAccount(
-        String.valueOf(savedPatient.getId()),
-        savedPatient.getName(),
-        savedPatient.getEmail()
-    );
+    try {
+      billingServiceGrpcClient.createBillingAccount(
+              String.valueOf(savedPatient.getId()),
+              savedPatient.getName(),
+              savedPatient.getEmail()
+      );
+    } catch (Exception e) {
+      // loguj grešku, ali nemoj da bacaš da ne prekidaš kreiranje pacijenta
+      log.error("Failed to create billing account via gRPC", e);
+    }
 
     return patientMapper.toPatientResponseDTO(savedPatient);
   }
 
-  public PatientResponseDTO updatePatient(UUID id, PatientRequestDTO requestDTO) {
+  public PatientResponseDTO updatePatient(UUID id,
+                                          PatientRequestDTO requestDTO) {
 
     Patient patient = patientRepository.findById(id).orElseThrow(() ->
         new PatientNotFoundException("Patient not found with ID: " + id));

@@ -7,12 +7,13 @@ services:
     depends_on:
       - patient-service-db
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://patient-service-db:5432/db
       - SPRING_DATASOURCE_USERNAME=admin_user
       - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - SPRING_SQL_INIT_MODE=always
+      - BILLING_SERVICE_ADDRESS=billing-service
+      - BILLING_SERVICE_GRPC_PORT=9001
     networks:
       - internal
 
@@ -36,14 +37,12 @@ services:
     image: billing-service
     ports:
       - "4001:4001"
-      - "9001:9001"  # gRPC port
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - "9001:9001"
     depends_on:
       - patient-service-db
     networks:
       - internal
-#
+
 #  zookeeper:
 #    image: confluentinc/cp-zookeeper:7.6.0
 #    container_name: zookeeper

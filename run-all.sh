@@ -10,9 +10,9 @@ SERVICES=("patient-service" "billing-service")
 for SERVICE in "${SERVICES[@]}"; do
   echo "🔧 Building $SERVICE..."
   if [ -f "$SERVICE/mvnw" ]; then
-    (cd $SERVICE && ./mvnw compile jib:dockerBuild)
+    (cd $SERVICE && ./mvnw clean compile jib:dockerBuild)
   else
-    (cd $SERVICE && mvn compile jib:dockerBuild)
+    (cd $SERVICE && mvn clean compile jib:dockerBuild)
   fi
 done
 

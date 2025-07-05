@@ -7,6 +7,7 @@ import com.pm.patientservice.service.PatientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.groups.Default;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class PatientController {
       @RequestBody PatientRequestDTO requestDTO) {
 
     PatientResponseDTO responseDTO = patientService.createPatient(requestDTO);
-    return ResponseEntity.ok().body(responseDTO);
+    return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
   }
 
   @PutMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.pm.patientservice.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,11 +16,11 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Map<String, String>> handleValidationExceptions(
-      MethodArgumentNotValidException ex) {
+          MethodArgumentNotValidException ex) {
 
     Map<String, String> errors = new HashMap<>();
     ex.getBindingResult().getFieldErrors().forEach(error ->
-        errors.put(error.getField(), error.getDefaultMessage())
+            errors.put(error.getField(), error.getDefaultMessage())
     );
 
     return ResponseEntity.badRequest().body(errors);
@@ -27,24 +28,31 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(EmailAlreadyExistsException.class)
   public ResponseEntity<Map<String, String>> handleEmailAlreadyExistsException(
-      EmailAlreadyExistsException ex) {
+          EmailAlreadyExistsException ex) {
 
-    log.debug("Email exception: {}", ex.getMessage()); //CHECK
+    log.debug("Email exception: {}", ex.getMessage());
     Map<String, String> errors = new HashMap<>();
     errors.put("message", "Email already exists");
 
-    return ResponseEntity.badRequest().body(errors);
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
   }
 
   @ExceptionHandler(PatientNotFoundException.class)
   public ResponseEntity<Map<String, String>> handlePatientNotFoundException(
-      PatientNotFoundException ex) {
+          PatientNotFoundException ex) {
 
-    log.debug("Patient not found: {}", ex.getMessage()); //CHECK
+    log.debug("Patient not found: {}", ex.getMessage());
     Map<String, String> errors = new HashMap<>();
     errors.put("message", "Patient not found");
 
-    return ResponseEntity.badRequest().body(errors);
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
   }
 
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
+    log.error("Unexpected error occurred", ex);
+    Map<String, String> errors = new HashMap<>();
+    errors.put("message", "Internal server error");
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
+  }
 }

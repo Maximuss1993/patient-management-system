@@ -3,9 +3,9 @@ POST http://localhost:4000/patients
 Content-Type: application/json
 
 {
-  "name": "John Doe with billing account",
+  "name": "John Doe grpc test",
   "address": "Test Address",
-  "email": "john.doee2@xample.com",
+  "email": "john.doseesadssas13@xample.com",
   "dateOfBirth": "1993-05-05",
   "registeredDate": "2025-05-05"
 }
