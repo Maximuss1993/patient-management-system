@@ -16,18 +16,16 @@ for SERVICE in "${SERVICES[@]}"; do
   fi
 done
 
+echo ""
 echo "🧹 Stopping and cleaning up previous Docker Compose services..."
 docker compose down
 
+echo ""
 echo "🚀 Starting Docker Compose stack in detached mode..."
 docker compose up -d --build
 
 echo "✅ Docker Compose stack started. Logs saved to docker-up.log"
-echo ""
 
-#echo "📋 Current container status:"
-#docker ps --format "table {{.Names}}\t{{.Status}}"
-#
-#echo ""
-#echo "💓 Healthcheck status (if defined):"
-#docker inspect --format '{{.Name}}: {{.State.Health.Status}}' $(docker ps -q)
+echo ""
+echo "💓 Healthcheck status (if defined):"
+docker inspect --format '{{.Name}}: {{.State.Health.Status}}' $(docker ps -q)
