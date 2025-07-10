@@ -8,8 +8,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    ports:
-      - "4000:4000"
+#    ports:
+#      - "4000:4000"
     depends_on:
       patient-service-db:
         condition: service_healthy
@@ -90,6 +90,15 @@ services:
       - internal
     restart: always
 
+  api-gateway:
+    container_name: api-gateway
+    image: api-gateway:latest
+    ports:
+      - "4004:4004"
+    networks:
+      - internal
+    restart: always
+
   kafka:
     image: bitnami/kafka:latest
     container_name: kafka
@@ -115,6 +124,7 @@ services:
       - "9094:9094"
     networks:
       - internal
+    restart: always
 
 volumes:
   postgres-data:
