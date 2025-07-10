@@ -5,7 +5,7 @@ set -e
 
 echo "🛠️  Building Docker images with Jib..."
 
-SERVICES=("patient-service" "billing-service")
+SERVICES=("patient-service" "billing-service" "analytics-service")
 
 for SERVICE in "${SERVICES[@]}"; do
   echo "🔧 Building $SERVICE..."
