@@ -12,7 +12,7 @@ fi
 echo "🛠️  Building Docker images with Jib..."
 
 # List of services that are local Maven projects (Java-based)
-SERVICES=("patient-service" "billing-service" "analytics-service" "api-gateway")
+SERVICES=("patient-service" "billing-service" "analytics-service" "api-gateway" "auth-service")
 
 for SERVICE in "${SERVICES[@]}"; do
   if [ ! -d "$SERVICE" ]; then

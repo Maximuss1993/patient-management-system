@@ -16,20 +16,20 @@ public class BillingServiceGrpcClient {
   private final BillingServiceGrpc.BillingServiceBlockingStub blockingStub;
 
   public BillingServiceGrpcClient(
-      @Value("${billing.service.address:localhost}") String  serverAddress,
+      @Value("${billing.service.address:localhost}") String serverAddress,
       @Value("${billing.service.grpc.port:9001}") int serverPort
   ) {
     log.info("Connecting to Billing Service at {}:{}",
-            serverAddress, serverPort);
+        serverAddress, serverPort);
 
     ManagedChannel channel = ManagedChannelBuilder
-            .forAddress(serverAddress, serverPort).usePlaintext().build();
+        .forAddress(serverAddress, serverPort).usePlaintext().build();
 
     blockingStub = BillingServiceGrpc.newBlockingStub(channel);
   }
 
   public BillingResponse createBillingAccount(
-          String patientId, String name, String email) {
+      String patientId, String name, String email) {
 
     BillingRequest request = BillingRequest.newBuilder()
         .setPatientId(patientId)
