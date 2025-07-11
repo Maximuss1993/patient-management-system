@@ -1,8 +1,7 @@
-package src.main.java.com.pm.authservice.service;
+package com.pm.authservice.service;
 
+import com.pm.authservice.dto.LoginRequestDTO;
 import org.springframework.stereotype.Service;
-import src.main.java.com.pm.authservice.dto.LoginRequestDTO;
-import src.main.java.com.pm.authservice.model.User;
 
 import java.util.Optional;
 
