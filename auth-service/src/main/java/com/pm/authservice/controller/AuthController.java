@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import src.main.java.com.pm.authservice.dto.LoginResponseDTO;
+import com.pm.authservice.dto.LoginResponseDTO;
 
 import java.util.Optional;
 

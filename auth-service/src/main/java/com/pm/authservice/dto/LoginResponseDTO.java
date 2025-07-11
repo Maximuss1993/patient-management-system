@@ -1,4 +1,4 @@
-package src.main.java.com.pm.authservice.dto;
+package com.pm.authservice.dto;
 
 import lombok.Getter;
 

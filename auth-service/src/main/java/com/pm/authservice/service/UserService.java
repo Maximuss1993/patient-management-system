@@ -1,8 +1,8 @@
 package com.pm.authservice.service;
 
+import com.pm.authservice.model.User;
+import com.pm.authservice.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import src.main.java.com.pm.authservice.model.User;
-import src.main.java.com.pm.authservice.repository.UserRepository;
 
 import java.util.Optional;
 

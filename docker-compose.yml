@@ -104,6 +104,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_SQL_INIT_MODE=always
+      - JWT_SECRET=S33ZQxAxGfD69XVB3q0v4Zl9uHD7hVsjkDPXMYe4GZw=
     #      - BILLING_SERVICE_ADDRESS=billing-service
     #      - BILLING_SERVICE_GRPC_PORT=9001
     #      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
@@ -145,11 +146,11 @@ services:
     image: bitnami/kafka:latest
     container_name: kafka
     healthcheck:
-      test: [ "CMD", "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--list" ]
+      test: [ "CMD", "kafka-topics.sh", "--bootstrap-server", "kafka:9092", "--list" ]
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 30s
+      start_period: 180s
     environment:
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
@@ -161,6 +162,7 @@ services:
       - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
       - KAFKA_CFG_NUM_PARTITIONS=1
       - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=1
+      - KAFKA_KRAFT_CLUSTER_ID=yourBase64ClusterIDHere
     ports:
       - "9092:9092"
       - "9094:9094"
