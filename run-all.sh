@@ -9,6 +9,21 @@ if ! command -v docker &> /dev/null; then
   exit 1
 fi
 
+echo "🧹 Checking for running containers..."
+
+# Find running containers (optional: filter by your project or all)
+RUNNING_CONTAINERS=$(docker ps -q)
+
+if [ -n "$RUNNING_CONTAINERS" ]; then
+  echo "🛑 Found running containers. Stopping them..."
+  docker stop $RUNNING_CONTAINERS
+  echo "🧹 Removing stopped containers..."
+  docker rm $RUNNING_CONTAINERS
+else
+  echo "✅ No running containers found."
+fi
+
+echo ""
 echo "🛠️  Building Docker images with Jib..."
 
 # List of services that are local Maven projects (Java-based)

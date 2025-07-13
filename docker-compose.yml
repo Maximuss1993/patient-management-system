@@ -8,8 +8,6 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    #    ports:
-    #      - "4000:4000"
     depends_on:
       patient-service-db:
         condition: service_healthy
@@ -44,7 +42,7 @@ services:
     ports:
       - "5000:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/patient-service/data
+      - patient-service-postgres-data:/var/lib/postgresql/data
     networks:
       - internal
     restart: always
@@ -105,9 +103,6 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_SQL_INIT_MODE=always
       - JWT_SECRET=S33ZQxAxGfD69XVB3q0v4Zl9uHD7hVsjkDPXMYe4GZw=
-    #      - BILLING_SERVICE_ADDRESS=billing-service
-    #      - BILLING_SERVICE_GRPC_PORT=9001
-    #      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
       - internal
     restart: always
@@ -128,7 +123,7 @@ services:
     ports:
       - "5001:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/auth-service/data
+      - auth-service-postgres-data:/var/lib/postgresql/data
     networks:
       - internal
     restart: always
@@ -171,7 +166,8 @@ services:
     restart: always
 
 volumes:
-  postgres-data:
+  patient-service-postgres-data:
+  auth-service-postgres-data:
 
 networks:
   internal:
